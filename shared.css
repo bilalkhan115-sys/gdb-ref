@@ -134,10 +134,11 @@ body {
   text-decoration: none;
 }
 
-.brand-compass {
-  width: 30px;
-  height: 30px;
+.brand-logo {
+  height: 22px;
+  width: auto;
   flex-shrink: 0;
+  display: block;
 }
 
 .brand-name {
