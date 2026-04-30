@@ -29,4 +29,13 @@
   } else {
     initTheme();
   }
+})();  // ← this was missing
+
+/* ── Analytics ─────────────────────────────────────────────── */
+(function() {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = '//gc.zgo.at/count.js';
+  s.setAttribute('data-goatcounter', 'https://bk-gdb.goatcounter.com/count');
+  document.head.appendChild(s);
 })();
