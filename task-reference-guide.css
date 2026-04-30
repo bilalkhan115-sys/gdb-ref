@@ -3,21 +3,10 @@
    task-reference-guide.css
    ============================================================ */
 
-/* ── Body layout for fixed topbar ─────────────────────────── */
+/* ── Body layout ───────────────────────────────────────────── */
 body {
   display: flex;
   flex-direction: column;
-}
-
-/* ── Topbar height override (reference uses fixed positioning) */
-.topbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-}
-
-/* ── Banner offset for fixed topbar ───────────────────────── */
-.banner {
-  margin-top: var(--topbar-height);
 }
 
 /* ── Left panel ────────────────────────────────────────────── */
