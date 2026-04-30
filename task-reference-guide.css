@@ -9,9 +9,6 @@ body {
   flex-direction: column;
 }
 
-/* ── Left panel ────────────────────────────────────────────── */
---left-panel-width: 320px;
-
 /* ── Page Header ───────────────────────────────────────────── */
 .page-header {
   padding: 20px 20px 0;
