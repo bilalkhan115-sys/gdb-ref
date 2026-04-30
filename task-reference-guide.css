@@ -102,7 +102,7 @@ body {
   padding: 14px 20px 20px;
   flex: 1;
   min-height: 0;
-  height: calc(100vh - var(--topbar-height) - 196px);
+  height: calc(100vh - var(--topbar-height) - 234px);
 }
 
 .left-panel {
