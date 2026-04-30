@@ -151,16 +151,16 @@ const TASKS = [
     conditional: 'If customs clearance is not received within the expected window after submission, check the Dev Message Log for any errors. If no error is logged, contact the customs broker or authority directly.'
   },
   // STG-5 Pre-arrival (t14 inactive)
-  {
-    id: 't14', task: 'ETA Warning', team: 'operations', teamLabel: 'Import Operations',
-    auto: 'recurring', autoLabel: 'Recurring',
-    deadline: null,
-    scope: { FR: false, DE: false, NL: false, IT: false, PL: false },
-    nonOps: false, inactive: true,
-    action: 'Review the ETA deviation and assess operational impact. Coordinate with the customer and any delivery partners to adjust planning. Complete the task once the situation has been assessed and the customer informed.',
-    dataToCheck: ['Revised ETA from MF live tracking','Original planned ETA','Deviation in days (early or late)','Downstream impact: carrier release, delivery planning, warehouse booking'],
-    conditional: 'This task becomes Pending automatically when MF live tracking shows the container arriving 7 or more days earlier or later than planned. It does not trigger for smaller deviations. If the deviation changes again, the task may reset.'
-  },
+  //{
+    //id: 't14', task: 'ETA Warning', team: 'operations', teamLabel: 'Import Operations',
+    //auto: 'recurring', autoLabel: 'Recurring',
+    //deadline: null,
+    //scope: { FR: false, DE: false, NL: false, IT: false, PL: false },
+    //nonOps: false, inactive: true,
+    //action: 'Review the ETA deviation and assess operational impact. Coordinate with the customer and any delivery partners to adjust planning. Complete the task once the situation has been assessed and the customer informed.',
+    //dataToCheck: ['Revised ETA from MF live tracking','Original planned ETA','Deviation in days (early or late)','Downstream impact: carrier release, delivery planning, warehouse booking'],
+    //conditional: 'This task becomes Pending automatically when MF live tracking shows the container arriving 7 or more days earlier or later than planned. It does not trigger for smaller deviations. If the deviation changes again, the task may reset.'
+  //},
   // STG-6 Carrier Release
   {
     id: 't16', task: 'Request carrier release', team: 'operations', teamLabel: 'Import Operations',
