@@ -110,16 +110,6 @@ const TASKS = [
     conditional: 'If the release document arrives outside the API (e.g. via email), manually upload the document to the shipment record and complete the task.'
   },
   {
-    id: 't10', task: 'Verify insurance certificate', team: 'operations', teamLabel: 'Import Operations',
-    auto: 'exception', autoLabel: 'Exception',
-    deadline: { label: '10 days after ATD' },
-    scope: { FR: true, DE: true, NL: true, IT: true, PL: true },
-    nonOps: false,
-    action: 'Check whether insurance applies to this shipment. If it does, retrieve the insurance certificate and verify it against the cargo details. Complete the task once verified, or mark not applicable if insurance is not required.',
-    dataToCheck: ['Incoterm (insurance typically required for CIF/CIP)','Insured value and currency','Coverage scope matches cargo','Certificate validity dates'],
-    conditional: 'This task is conditional on incoterm and country-specific rules. Check the Compliance tab Insurance flag in MF to determine applicability. MF configuration to drive task visibility by this flag is pending confirmation.'
-  },
-  {
     id: 't11', task: 'Check / complete customs data', team: 'documentation', teamLabel: 'Import Documentation',
     auto: 'manual', autoLabel: 'Manual',
     deadline: { label: '7 days before ETA' },
