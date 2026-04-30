@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyFreight Task Reference · GDB Logistics</title>
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="task-reference-guide.css" />
+</head>
+<body>
+
+  <!-- ── Topbar ─────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <svg class="brand-compass" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" stroke="#4EF0F4" stroke-width="3" fill="none" stroke-dasharray="90 30" stroke-dashoffset="10"/>
+        <polygon points="20,6 24,20 20,34 16,20" fill="#ffffff"/>
+        <polygon points="20,6 24,20 20,18 16,20" fill="#0073FF"/>
+      </svg>
+      <div>
+        <div class="brand-name">GDB Logistics</div>
+        <div class="brand-tagline">WE DELIVER</div>
+      </div>
+    </div>
+    <div class="topbar-divider"></div>
+    <nav class="topbar-nav">
+      <a href="dashboard-guide.html" class="topbar-nav-item">Dashboard Guide</a>
+      <a href="task-reference-guide.html" class="topbar-nav-item active">Task Reference</a>
+    </nav>
+  </header>
+
+  <!-- ── Dashboard Banner ───────────────────────────────── -->
+  <div class="dashboard-banner">
+    <span class="banner-icon">📊</span>
+    <span>Start your daily work from the <strong>MyFreight Dashboard</strong> — it shows all shipments with Pending tasks across your team's active portfolio.</span>
+  </div>
+
+  <!-- ── Page Header ────────────────────────────────────── -->
+  <div class="page-header">
+    <div class="page-header-eyebrow">Ocean Import · GloForEx</div>
+    <div class="page-header-title">MyFreight Task Reference</div>
+    <div class="page-header-subtitle">Select a task to view the required action, data checklist, and conditions. Use the filters to narrow by country or team.</div>
+  </div>
+
+  <!-- ── Filters ────────────────────────────────────────── -->
+  <div class="filters-wrap">
+    <div class="filter-row">
+      <span class="filter-label">Country</span>
+      <button class="filter-btn country active" data-country-filter="all"  onclick="setCountryFilter('all')">All</button>
+      <button class="filter-btn country"        data-country-filter="FR"   onclick="setCountryFilter('FR')">FR</button>
+      <button class="filter-btn country"        data-country-filter="DE"   onclick="setCountryFilter('DE')">DE</button>
+      <button class="filter-btn country"        data-country-filter="NL"   onclick="setCountryFilter('NL')">NL</button>
+      <button class="filter-btn country"        data-country-filter="IT"   onclick="setCountryFilter('IT')">IT</button>
+      <button class="filter-btn country"        data-country-filter="PL"   onclick="setCountryFilter('PL')">PL</button>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Team</span>
+      <button class="filter-btn active"         data-team-filter="all"           onclick="setTeamFilter('all')">All tasks</button>
+      <button class="filter-btn"                data-team-filter="booking"        onclick="setTeamFilter('booking')">Import Booking</button>
+      <button class="filter-btn"                data-team-filter="documentation"  onclick="setTeamFilter('documentation')">Import Documentation</button>
+      <button class="filter-btn"                data-team-filter="operations"     onclick="setTeamFilter('operations')">Import Operations</button>
+      <button class="filter-btn"                data-team-filter="financial"      onclick="setTeamFilter('financial')">Financial Handling</button>
+      <button class="filter-btn"                data-team-filter="error"          onclick="setTeamFilter('error')">Error Handling</button>
+    </div>
+  </div>
+
+  <!-- ── Split Layout ───────────────────────────────────── -->
+  <div class="split-wrap">
+    <div class="left-panel">
+      <div class="task-count" id="task-count">25 tasks</div>
+      <div id="task-list"></div>
+    </div>
+    <div class="right-panel">
+      <div id="detail-placeholder" class="placeholder">
+        <div class="placeholder-icon">🗂</div>
+        <div class="placeholder-text">Select a task</div>
+        <div class="placeholder-sub">Choose a task from the list to view the action guide, data checklist, and conditions.</div>
+      </div>
+      <div id="detail-panel" class="detail-panel"></div>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="task-reference-guide.js"></script>
+</body>
+</html>

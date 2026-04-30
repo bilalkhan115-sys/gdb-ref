@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyFreight Dashboard Guide · GDB Logistics</title>
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="dashboard-guide.css" />
+</head>
+<body>
+
+  <!-- ── Topbar ─────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="brand-compass" style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🧭</div>
+      <div>
+        <div class="brand-name">GDB Logistics</div>
+        <div class="brand-tagline">WE DELIVER</div>
+      </div>
+    </div>
+    <div class="topbar-divider"></div>
+    <nav class="topbar-nav">
+      <a href="dashboard-guide.html" class="topbar-nav-item active">Dashboard Guide</a>
+      <a href="task-reference-guide.html" class="topbar-nav-item">Task Reference</a>
+    </nav>
+  </header>
+
+  <!-- ── Banner ────────────────────────────────────────── -->
+  <div class="banner">
+    <span class="banner-icon">📋</span>
+    <span>Start your daily work from the <strong>MyFreight Dashboard</strong> — it shows all shipments with pending tasks for GDB Forwarding.</span>
+  </div>
+
+  <!-- ── Page header ───────────────────────────────────── -->
+  <div class="page-header">
+    <div class="eyebrow">Freight Forwarding · Ocean Import</div>
+    <h1 class="page-title">How to use the MyFreight Dashboard</h1>
+    <p class="page-subtitle">A step-by-step walkthrough of how to find, filter, assign, and action tasks using the MyFreight Dashboard.</p>
+  </div>
+
+  <!-- ── Progress bar ──────────────────────────────────── -->
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span class="progress-label">Progress</span>
+      <span class="step-counter" id="stepCounter">Step 1 of 6</span>
+    </div>
+    <div class="progress-dots" id="progressDots"></div>
+  </div>
+
+  <!-- ── Step container ────────────────────────────────── -->
+  <div class="step-container" id="stepContainer"></div>
+
+  <!-- ── Step navigation ───────────────────────────────── -->
+  <div class="nav-row" id="navRow">
+    <button class="nav-btn" id="btnPrev" onclick="goStep(-1)">← Previous</button>
+    <button class="nav-btn primary" id="btnNext" onclick="goStep(1)">Next →</button>
+  </div>
+
+  <!-- ── Lightbox ──────────────────────────────────────── -->
+  <div id="lightbox" onclick="closeLightbox(event)">
+    <button id="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="Screenshot fullscreen" />
+    <div id="lightbox-hint">Press ESC or click outside to close</div>
+  </div>
+
+  <!-- ── Floating print button ─────────────────────────── -->
+  <button class="print-fab" onclick="window.print()" title="Print this page">⎙</button>
+
+  <script src="shared.js"></script>
+  <script src="dashboard-guide.js"></script>
+</body>
+</html>

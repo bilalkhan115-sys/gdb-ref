@@ -1,0 +1,263 @@
+/* ============================================================
+   GloForEx — Shared Styles
+   shared.css
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+/* ── CSS Custom Properties ─────────────────────────────────── */
+:root {
+  /* Brand colours */
+  --navy:        #002061;
+  --navy-light:  #0a2d7a;
+  --blue:        #0073FF;
+  --blue-dark:   #0058cc;
+  --cyan:        #4EF0F4;
+  --green:       #00B57B;
+  --lime:        #86C200;
+  --white:       #FFFFFF;
+  --black:       #000000;
+
+  /* Light mode tokens */
+  --bg:              #f0f2f7;
+  --surface:         #ffffff;
+  --surface2:        #f7f9fc;
+  --surface-inset:   #eef1f7;
+  --border:          #d4daea;
+  --border-strong:   #b0bbd4;
+  --text-primary:    #002061;
+  --text-secondary:  #3a4e7a;
+  --text-muted:      #7080a0;
+  --text-on-dark:    #ffffff;
+
+  /* Topbar */
+  --topbar-bg:   #002061;
+  --topbar-text: #ffffff;
+
+  /* Banner */
+  --banner-bg:   #00B57B;
+  --banner-text: #ffffff;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(0,32,97,.08);
+  --shadow-md:  0 4px 12px rgba(0,32,97,.12);
+  --shadow-lg:  0 8px 24px rgba(0,32,97,.16);
+
+  /* Sizes */
+  --topbar-height:    56px;
+  --border-radius:    8px;
+  --border-radius-sm: 5px;
+
+  /* Transitions */
+  --transition: 200ms ease;
+
+  /* Nav */
+  --nav-btn-bg:         #eef1f7;
+  --nav-btn-text:       #002061;
+  --nav-btn-hover:      #0073FF;
+  --nav-btn-hover-text: #ffffff;
+
+  /* Warning */
+  --warning-bg:     #FFF8E6;
+  --warning-border: #F5C842;
+  --warning-text:   #7A5C00;
+
+  /* Callout */
+  --callout-bg:     #EEF8FF;
+  --callout-border: #0073FF;
+}
+
+[data-theme="dark"] {
+  --bg:              #0d1220;
+  --surface:         #151c30;
+  --surface2:        #1a2340;
+  --surface-inset:   #111828;
+  --border:          #253050;
+  --border-strong:   #3a4a70;
+  --text-primary:    #e8edf8;
+  --text-secondary:  #a8b8d8;
+  --text-muted:      #6070a0;
+
+  --banner-bg:   #00875a;
+  --banner-text: #ffffff;
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.3);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.4);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,.5);
+
+  --nav-btn-bg:   #1a2340;
+  --nav-btn-text: #a8b8d8;
+
+  --warning-bg:     #1E1600;
+  --warning-border: #A07800;
+  --warning-text:   #F0C040;
+
+  --callout-bg:     #0A1525;
+  --callout-border: #0073FF;
+}
+
+/* ── Reset & Base ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 14px; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ── Topbar ────────────────────────────────────────────────── */
+.topbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--topbar-height);
+  background: var(--topbar-bg);
+  display: flex;
+  align-items: stretch;
+  padding: 0 24px 0 20px;
+  gap: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Brand ─────────────────────────────────────────────────── */
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.brand-compass {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--topbar-text);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.brand-tagline {
+  font-size: 7.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.topbar-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255,255,255,0.18);
+  flex-shrink: 0;
+  align-self: center;
+  margin: 0 16px;
+}
+
+/* ── Topbar Nav ────────────────────────────────────────────── */
+.topbar-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  flex: 1;
+}
+
+.topbar-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+  white-space: nowrap;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+}
+
+.topbar-nav-item:hover {
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.06);
+}
+
+.topbar-nav-item.active {
+  color: #ffffff;
+  font-weight: 700;
+  border-bottom-color: var(--cyan);
+}
+
+/* ── Banner ────────────────────────────────────────────────── */
+.banner {
+  background: var(--banner-bg);
+  color: var(--banner-text);
+  padding: 9px 20px;
+  font-size: 12.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  letter-spacing: 0.01em;
+}
+
+.banner-icon { font-size: 14px; flex-shrink: 0; }
+
+/* ── Floating Print Button ─────────────────────────────────── */
+.print-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #ffffff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,32,97,0.35);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  z-index: 90;
+  line-height: 1;
+}
+
+.print-fab:hover {
+  background: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,115,255,0.4);
+}
+
+.print-fab:active {
+  transform: translateY(0);
+}
+
+/* ── Scrollbar global ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+/* ── Utility ───────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Print ─────────────────────────────────────────────────── */
+@media print {
+  .topbar,
+  .banner,
+  .print-fab { display: none !important; }
+  body { background: #fff !important; }
+}
