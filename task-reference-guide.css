@@ -24,7 +24,7 @@ body {
 --left-panel-width: 320px;
 
 /* ── Dashboard Banner ──────────────────────────────────────── */
-.dashboard-banner {
+/*.dashboard-banner {
   background: var(--banner-bg);
   color: var(--banner-text);
   padding: 10px 20px;
