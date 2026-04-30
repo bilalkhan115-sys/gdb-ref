@@ -7,16 +7,6 @@
 const TASKS = [
   // STG-1 Booking
   {
-    id: 't1', task: 'Validate booking', team: 'booking', teamLabel: 'Import Booking',
-    auto: 'full', autoLabel: 'Auto-complete',
-    deadline: { label: '5 days before ETD' },
-    scope: { FR: true, DE: false, NL: true, IT: true, PL: true },
-    nonOps: false,
-    action: 'Confirm that all required booking fields are present and correct. For API bookings where all fields are populated, this task completes automatically. For manual or exception bookings, review the record and complete the task once validated.',
-    dataToCheck: ['Consignee and shipper details','POL and POD','ETD and ETA','Carrier and service','Container type and count','Incoterm'],
-    conditional: null
-  },
-  {
     id: 't2', task: 'Request booking confirmation', team: 'booking', teamLabel: 'Import Booking',
     auto: 'manual', autoLabel: 'Manual',
     deadline: { label: '14 days before ETD' },
@@ -24,6 +14,16 @@ const TASKS = [
     nonOps: false,
     action: 'Contact the carrier or agent to request formal confirmation that space has been allocated for this shipment.',
     dataToCheck: ['Carrier or agent contact details','Carrier shipment number and voyage details','Container type and quantity'],
+    conditional: null
+  },
+  {
+    id: 't1', task: 'Validate booking', team: 'booking', teamLabel: 'Import Booking',
+    auto: 'full', autoLabel: 'Auto-complete',
+    deadline: { label: '5 days before ETD' },
+    scope: { FR: true, DE: false, NL: true, IT: true, PL: true },
+    nonOps: false,
+    action: 'Confirm that all required booking fields are present and correct. For API bookings where all fields are populated, this task completes automatically. For manual or exception bookings, review the record and complete the task once validated.',
+    dataToCheck: ['Consignee and shipper details','POL and POD','ETD and ETA','Carrier and service','Container type and count','Incoterm'],
     conditional: null
   },
   {
@@ -38,16 +38,6 @@ const TASKS = [
   },
   // STG-2 Departure
   {
-    id: 't4', task: 'Check agent update', team: 'booking', teamLabel: 'Import Booking',
-    auto: 'recurring', autoLabel: 'Recurring',
-    deadline: { label: '3 days before ETD' },
-    scope: { FR: true, DE: false, NL: true, IT: false, PL: true },
-    nonOps: false,
-    action: 'Review the latest data pushed by the agent via the SnapLogic API and confirm it is correct. This task resets to Pending each time a new agent update is received — it does not need to be actioned if no update has come in.',
-    dataToCheck: ['ETD and ETA','Vessel name','Carrier shipment number','Container number'],
-    conditional: 'Applies to API shipments only — not applicable for manual bookings. DE and IT are not yet live for this task due to no agent integrations. If data received from the agent contradicts what is in MF, do not overwrite — raise with your team lead.'
-  },
-  {
     id: 't5', task: 'Departure shipment data', team: 'booking', teamLabel: 'Import Booking',
     auto: 'api-automated', autoLabel: 'API-automated',
     deadline: { label: '5 days before ETD' },
@@ -56,6 +46,16 @@ const TASKS = [
     action: 'Manually enter or verify all departure shipment data fields in MF. Complete the task once all required fields are populated and confirmed.',
     dataToCheck: ['POD and POL','ETD and ETA','Vessel name','Carrier','Carrier shipment number','Contract number'],
     conditional: 'Applies to non-API shipments only. If the shipment is agent-sourced via API, use the Check agent update task instead. If any field cannot be confirmed before the deadline, log this in the shipment notes and escalate.'
+  },
+  {
+    id: 't4', task: 'Check agent update', team: 'booking', teamLabel: 'Import Booking',
+    auto: 'recurring', autoLabel: 'Recurring',
+    deadline: { label: '3 days before ETD' },
+    scope: { FR: true, DE: false, NL: true, IT: false, PL: true },
+    nonOps: false,
+    action: 'Review the latest data pushed by the agent via the SnapLogic API and confirm it is correct. This task resets to Pending each time a new agent update is received — it does not need to be actioned if no update has come in.',
+    dataToCheck: ['ETD and ETA','Vessel name','Carrier shipment number','Container number'],
+    conditional: 'Applies to API shipments only — not applicable for manual bookings. DE and IT are not yet live for this task due to no agent integrations. If data received from the agent contradicts what is in MF, do not overwrite — raise with your team lead.'
   },
   {
     id: 't6', task: 'Agent Pre-alert', team: 'booking', teamLabel: 'Import Booking',
@@ -67,7 +67,18 @@ const TASKS = [
     dataToCheck: ['HBL number','MBL number','Container number'],
     conditional: 'If the pre-alert arrives without one or more of the required fields, the task will remain Pending. In this case, contact the agent to request the missing information before the arrival deadline.'
   },
-  // STG-3 Documentation
+  // ATD-anchored
+  {
+    id: 't10', task: 'Verify insurance certificate', team: 'operations', teamLabel: 'Import Operations',
+    auto: 'exception', autoLabel: 'Exception',
+    deadline: { label: '10 days after ATD' },
+    scope: { FR: true, DE: true, NL: true, IT: true, PL: true },
+    nonOps: false,
+    action: 'Check whether insurance applies to this shipment. If it does, retrieve the insurance certificate and verify it against the cargo details. Complete the task once verified, or mark not applicable if insurance is not required.',
+    dataToCheck: ['Incoterm (insurance typically required for CIF/CIP)','Insured value and currency','Coverage scope matches cargo','Certificate validity dates'],
+    conditional: 'This task is conditional on incoterm and country-specific rules. Check the Compliance tab Insurance flag in MF to determine applicability. MF configuration to drive task visibility by this flag is pending confirmation.'
+  },
+  // ETA-anchored (7 days before)
   {
     id: 't7', task: 'Verify commercial invoice & packing list', team: 'operations', teamLabel: 'Import Operations',
     auto: 'manual', autoLabel: 'Manual',
@@ -140,26 +151,16 @@ const TASKS = [
     conditional: 'If customs clearance is not received within the expected window after submission, check the Dev Message Log for any errors. If no error is logged, contact the customs broker or authority directly.'
   },
   // STG-5 Pre-arrival (t14 inactive)
-  {
-    id: 't14', task: 'ETA Warning', team: 'operations', teamLabel: 'Import Operations',
-    auto: 'recurring', autoLabel: 'Recurring',
-    deadline: null,
-    scope: { FR: false, DE: false, NL: false, IT: false, PL: false },
-    nonOps: false, inactive: true,
-    action: 'Review the ETA deviation and assess operational impact. Coordinate with the customer and any delivery partners to adjust planning. Complete the task once the situation has been assessed and the customer informed.',
-    dataToCheck: ['Revised ETA from MF live tracking','Original planned ETA','Deviation in days (early or late)','Downstream impact: carrier release, delivery planning, warehouse booking'],
-    conditional: 'This task becomes Pending automatically when MF live tracking shows the container arriving 7 or more days earlier or later than planned. It does not trigger for smaller deviations. If the deviation changes again, the task may reset.'
-  },
-  {
-    id: 't15', task: 'Terminal update', team: 'operations', teamLabel: 'Import Operations',
-    auto: 'manual', autoLabel: 'Manual',
-    deadline: null,
-    scope: { FR: true, DE: false, NL: false, IT: true, PL: false },
-    nonOps: false,
-    action: 'Check the terminal system for the latest container status and update MF accordingly. Confirm port availability, berthing, and discharge information where available.',
-    dataToCheck: ['Terminal arrival / discharge status','Container availability for pickup','Terminal reference or PIN if required','Any demurrage or free time implications'],
-    conditional: 'Applicable for FCL shipments entering via the ports of Marseille or Fos-sur-Mer (FR). Not applicable for DE, NL, or PL.'
-  },
+  //{
+    //id: 't14', task: 'ETA Warning', team: 'operations', teamLabel: 'Import Operations',
+    //auto: 'recurring', autoLabel: 'Recurring',
+    //deadline: null,
+    //scope: { FR: false, DE: false, NL: false, IT: false, PL: false },
+    //nonOps: false, inactive: true,
+    //action: 'Review the ETA deviation and assess operational impact. Coordinate with the customer and any delivery partners to adjust planning. Complete the task once the situation has been assessed and the customer informed.',
+    //dataToCheck: ['Revised ETA from MF live tracking','Original planned ETA','Deviation in days (early or late)','Downstream impact: carrier release, delivery planning, warehouse booking'],
+    //conditional: 'This task becomes Pending automatically when MF live tracking shows the container arriving 7 or more days earlier or later than planned. It does not trigger for smaller deviations. If the deviation changes again, the task may reset.'
+  //},
   // STG-6 Carrier Release
   {
     id: 't16', task: 'Request carrier release', team: 'operations', teamLabel: 'Import Operations',
@@ -193,16 +194,6 @@ const TASKS = [
     conditional: 'If the customer has specific notification requirements (e.g. pre-advice window, delivery slot booking), check the customer profile before sending. If delivery cannot be planned within 2 days of ATA, log the reason and notify the customer of the delay.'
   },
   {
-    id: 't19', task: 'Transport Delivery Order', team: 'operations', teamLabel: 'Import Operations',
-    auto: 'manual', autoLabel: 'Manual',
-    deadline: { label: '2 days before ATA' },
-    scope: { FR: true, DE: true, NL: true, IT: true, PL: true },
-    nonOps: false,
-    action: 'Execute the Transport Delivery Order task in MF. This triggers an API call to push the planned delivery data to Qargo or the assigned trucker. The task turns green on a successful push.',
-    dataToCheck: ['Delivery address and contact','Planned delivery date and time','Container number(s)','Trucker or transport partner assigned in MF'],
-    conditional: 'If the task does not turn green after execution, the API push has failed. Check the Dev Message Log for an error entry and resolve before retrying. Do not contact the trucker directly to communicate delivery details — MF is the system of record.'
-  },
-  {
     id: 't20', task: 'Warehouse Inbound Order', team: 'operations', teamLabel: 'Import Operations',
     auto: 'exception', autoLabel: 'Exception',
     deadline: { label: '3 days before ATA' },
@@ -211,6 +202,16 @@ const TASKS = [
     action: 'Create and submit a Warehouse Inbound Order to the receiving warehouse. Coordinate with the warehouse to confirm the inbound slot and any handling requirements.',
     dataToCheck: ['Warehouse name and address','Inbound booking reference','Cargo description, weight, and dimensions','Handling instructions (hazardous, temperature, fragile)'],
     conditional: 'This task only applies where cargo is delivered to a warehouse before final delivery to the end customer. If the shipment goes direct to consignee, this task is not required.'
+  },
+  {
+    id: 't19', task: 'Transport Delivery Order', team: 'operations', teamLabel: 'Import Operations',
+    auto: 'manual', autoLabel: 'Manual',
+    deadline: { label: '2 days before ATA' },
+    scope: { FR: true, DE: true, NL: true, IT: true, PL: true },
+    nonOps: false,
+    action: 'Execute the Transport Delivery Order task in MF. This triggers an API call to push the planned delivery data to Qargo or the assigned trucker. The task turns green on a successful push.',
+    dataToCheck: ['Delivery address and contact','Planned delivery date and time','Container number(s)','Trucker or transport partner assigned in MF'],
+    conditional: 'If the task does not turn green after execution, the API push has failed. Check the Dev Message Log for an error entry and resolve before retrying. Do not contact the trucker directly to communicate delivery details — MF is the system of record.'
   },
   {
     id: 't21', task: 'LCL Devanning', team: 'operations', teamLabel: 'Import Operations',
@@ -231,6 +232,16 @@ const TASKS = [
     action: 'Submit requests for the TCT (PCR) and ERC (leeg retour) to the relevant port authority or terminal at Le Havre. Complete the task in MF once both requests have been submitted.',
     dataToCheck: ['Container number(s)','Customs clearance reference','Terminal or port authority contact at Le Havre','Return depot details for empty container'],
     conditional: 'Le Havre port operations only. This task is triggered on customs clearance. Not applicable for FR shipments entering through other ports (e.g. Marseille, Fos-sur-Mer).'
+  },
+  {
+    id: 't15', task: 'Terminal update', team: 'operations', teamLabel: 'Import Operations',
+    auto: 'manual', autoLabel: 'Manual',
+    deadline: null,
+    scope: { FR: true, DE: false, NL: false, IT: true, PL: false },
+    nonOps: false,
+    action: 'Check the terminal system for the latest container status and update MF accordingly. Confirm port availability, berthing, and discharge information where available.',
+    dataToCheck: ['Terminal arrival / discharge status','Container availability for pickup','Terminal reference or PIN if required','Any demurrage or free time implications'],
+    conditional: 'Applicable for FCL shipments entering via the ports of Marseille or Fos-sur-Mer (FR). Not applicable for DE, NL, or PL.'
   },
   {
     id: 't23', task: 'Return empty container monitoring', team: 'operations', teamLabel: 'Import Operations',
