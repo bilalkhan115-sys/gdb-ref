@@ -263,7 +263,7 @@ const TASKS = [
     nonOps: true,
     action: 'Monitor the Dev Message Log on every shipment throughout the lifecycle. A Completed status is informational. A Pending status means an integration error or missing data requires your attention — review the log entry and resolve the issue.',
     dataToCheck: ['Log entry type (error / warning / info)','Affected task or integration point','Timestamp of the issue','Any related task that has also been reset to Pending'],
-    conditional: 'This log is persistent on every shipment and runs in parallel to all operational stages. It does not follow a sequential order. If multiple log entries are Pending simultaneously, prioritise those related to customs or carrier release as these are on the critical path.'
+    conditional: 'This log is persistent on every shipment and runs in parallel to all operational stages. It does not follow a sequential order. If multiple log entries are Pending simultaneously, prioritise those related to customs or carrier release as these are on the critical path.<strong> IMPORTANT:</strong> Always set the Dev Message Log back to Completed (green) once you have addressed the described problem.'
   }
 ];
 
