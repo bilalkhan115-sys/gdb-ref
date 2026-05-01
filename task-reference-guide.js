@@ -169,7 +169,7 @@ const TASKS = [
     scope: { FR: true, DE: true, NL: true, IT: true, PL: true },
     nonOps: false,
     action: 'Check the port or carrier system to confirm that the container release has been granted. Complete this task in MF once release is confirmed.',
-    dataToCheck: ['Release status in port/carrier system','PIN or release code if applicable','Free time start and end dates','Any holds (customs, freight, lien)'],
+    dataToCheck: ['Release status in port/carrier system','PIN or release code if applicable','Free time start and end dates','Any holds (customs, freight, unpaid invoices)'],
     conditional: 'Currently manual — future integration with S)One, Ci5, or Twiki is planned to auto-complete this task, but is out of scope for the current phase. If release is refused or delayed, log the reason and escalate to the carrier account manager.'
   },
   // STG-7 Delivery
