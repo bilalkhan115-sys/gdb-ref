@@ -56,30 +56,57 @@
     </div>
   </div>
 
-  <!-- ── Print bar ──────────────────────────────────────── -->
+  <!-- ── Print bar ──────────────────────────────────────────── -->
   <div class="print-bar">
     <span class="print-bar-label" id="print-bar-label">24 tasks · All countries · All teams</span>
-    <button class="print-btn" onclick="printTasks()">⎙ Print task list</button>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="print-btn compare-mode-btn" id="compareModeBtn" onclick="toggleCompareMode()">⇄ Compare mode</button>
+      <button class="print-btn" onclick="printTasks()">⎙ Print task list</button>
+    </div>
   </div>
 
   <!-- ── Print view (hidden on screen) ─────────────────── -->
   <div id="print-view" class="print-view"></div>
 
-  <!-- ── Split Layout ───────────────────────────────────── -->
-  <div class="split-wrap">
-    <div class="left-panel">
-      <div class="task-count" id="task-count">24 tasks</div>
-      <div id="task-list"></div>
-    </div>
-    <div class="right-panel">
-      <div id="detail-placeholder" class="placeholder">
-        <div class="placeholder-icon">🗂</div>
-        <div class="placeholder-text">Select a task</div>
-        <div class="placeholder-sub">Choose a task from the list to view the action guide, data checklist, and conditions.</div>
+  <!-- ── View container (split and compare share this flex slot) ── -->
+  <div class="view-container">
+
+    <!-- ── Compare view (hidden until compare mode on) ────── -->
+    <div id="compare-view" class="compare-view hidden">
+      <div class="compare-left-panel">
+        <div class="task-count-bar">
+          <span class="task-count" id="compare-task-count">24 tasks</span>
+          <span class="compare-hint" id="compare-hint">Select up to 3 tasks</span>
+        </div>
+        <div id="compare-task-list"></div>
       </div>
-      <div id="detail-panel" class="detail-panel"></div>
+      <div class="compare-right-panel" id="compare-right-panel">
+        <div class="compare-placeholder" id="compare-placeholder">
+          <div class="placeholder-icon">⇄</div>
+          <div class="placeholder-text">No tasks selected</div>
+          <div class="placeholder-sub">Select up to 3 tasks from the list to compare them side by side.</div>
+        </div>
+        <div class="compare-grid" id="compare-grid"></div>
+      </div>
     </div>
-  </div>
+
+    <!-- ── Split Layout ───────────────────────────────────── -->
+    <div class="split-wrap">
+      <div class="left-panel">
+        <div class="task-count" id="task-count">24 tasks</div>
+        <div id="task-list"></div>
+      </div>
+      <div class="right-panel">
+        <div id="detail-placeholder" class="placeholder">
+          <div class="placeholder-icon">🗂</div>
+          <div class="placeholder-text">Select a task</div>
+          <div class="placeholder-sub">Choose a task from the list to view the action guide, data checklist, and conditions.</div>
+        </div>
+        <div id="detail-panel" class="detail-panel"></div>
+      </div>
+    </div>
+
+  </div><!-- /.view-container -->
 
   <script src="shared.js"></script>
   <script src="task-reference-guide.js"></script>

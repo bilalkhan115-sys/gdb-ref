@@ -268,9 +268,12 @@ const TASKS = [
 ];
 
 /* ── State ─────────────────────────────────────────────────── */
-let activeCountry = 'all';
-let activeTeam    = 'all';
-let selectedTask  = null;
+let activeCountry  = 'all';
+let activeTeam     = 'all';
+let selectedTask   = null;
+let compareMode    = false;
+const compareTasks = [];
+const COMPARE_MAX  = 3;
 
 /* ── Constants ─────────────────────────────────────────────── */
 const AUTO_ICONS = {
@@ -297,6 +300,7 @@ function setCountryFilter(country) {
     btn.classList.toggle('active', btn.dataset.countryFilter === country);
   });
   renderTaskList();
+  if (compareMode) renderCompareList();
 }
 
 function setTeamFilter(team) {
@@ -311,6 +315,7 @@ function setTeamFilter(team) {
     }
   });
   renderTaskList();
+  if (compareMode) renderCompareList();
 }
 
 /* ── Render task list ──────────────────────────────────────── */
@@ -405,6 +410,141 @@ function renderDetail(task) {
     </div>`;
 
   panel.classList.add('visible');
+}
+
+/* ── Compare mode ─────────────────────────────────────────── */
+function toggleCompareMode() {
+  compareMode = !compareMode;
+  const btn = document.getElementById('compareModeBtn');
+  if (btn) btn.classList.toggle('active', compareMode);
+
+  const splitWrap    = document.querySelector('.split-wrap');
+  const compareView  = document.getElementById('compare-view');
+
+  if (compareMode) {
+    splitWrap.classList.add('hidden');
+    compareView.classList.remove('hidden');
+    renderCompareList();
+    renderCompareGrid();
+  } else {
+    splitWrap.classList.remove('hidden');
+    compareView.classList.add('hidden');
+  }
+}
+
+function toggleCompareTask(task) {
+  const idx = compareTasks.findIndex(t => t.id === task.id);
+  if (idx > -1) {
+    compareTasks.splice(idx, 1);
+  } else {
+    if (compareTasks.length >= COMPARE_MAX) return;
+    compareTasks.push(task);
+  }
+  renderCompareList();
+  renderCompareGrid();
+}
+
+function renderCompareList() {
+  const list  = document.getElementById('compare-task-list');
+  const count = document.getElementById('compare-task-count');
+  const hint  = document.getElementById('compare-hint');
+  const tasks = getFilteredTasks();
+
+  list.innerHTML = '';
+  count.textContent = `${tasks.length} task${tasks.length !== 1 ? 's' : ''}`;
+
+  const remaining = COMPARE_MAX - compareTasks.length;
+  hint.textContent = compareTasks.length === 0
+    ? `Select up to ${COMPARE_MAX} tasks`
+    : remaining === 0
+      ? 'Max tasks selected'
+      : `${remaining} slot${remaining !== 1 ? 's' : ''} remaining`;
+
+  tasks.forEach(task => {
+    const compareIdx = compareTasks.findIndex(t => t.id === task.id);
+    const inCompare  = compareIdx > -1;
+    const atMax      = compareTasks.length >= COMPARE_MAX;
+
+    const item = document.createElement('div');
+    item.className = `compare-task-item${inCompare ? ' in-compare' : ''}`;
+    if (!inCompare && atMax) item.style.opacity = '0.45';
+
+    const badgeHTML = inCompare
+      ? `<span class="compare-num-badge">${compareIdx + 1}</span>`
+      : `<span class="pill pill-${task.team}" style="font-size:9.5px;padding:2px 7px;">${task.teamLabel.replace('Import ', '')}</span>`;
+
+    item.innerHTML = `
+      <div class="compare-task-item-name">${task.task}</div>
+      ${badgeHTML}`;
+
+    if (inCompare || !atMax) {
+      item.addEventListener('click', () => toggleCompareTask(task));
+    }
+
+    list.appendChild(item);
+  });
+}
+
+function renderCompareGrid() {
+  const grid        = document.getElementById('compare-grid');
+  const placeholder = document.getElementById('compare-placeholder');
+
+  if (compareTasks.length === 0) {
+    placeholder.style.display = 'flex';
+    grid.classList.remove('visible');
+    grid.innerHTML = '';
+    return;
+  }
+
+  placeholder.style.display = 'none';
+  grid.classList.add('visible');
+
+  grid.innerHTML = compareTasks.map((task, i) => {
+    const scopeHTML = ['FR', 'DE', 'NL', 'IT', 'PL'].map(c =>
+      `<span class="scope-badge ${task.scope[c] ? 'active' : 'inactive'}">${c}</span>`
+    ).join('');
+
+    const deadlinePill = task.deadline
+      ? `<span class="pill pill-deadline">⏱ ${task.deadline.label}</span>` : '';
+    const autoPill   = `<span class="pill pill-auto-${task.auto}">${AUTO_ICONS[task.auto] || ''} ${task.autoLabel}</span>`;
+    const teamPill   = `<span class="pill pill-${task.team}">${TEAM_ICONS[task.team] || ''} ${task.teamLabel}</span>`;
+    const nonOpsPill = task.nonOps ? `<span class="pill pill-non-ops">Non-ops</span>` : '';
+
+    const checksHTML = task.dataToCheck.map(c => `<li>${c}</li>`).join('');
+
+    const conditionalCard = task.conditional ? `
+      <div class="detail-card card-cond">
+        <div class="detail-card-header"><span class="card-icon">⚠️</span>Conditions &amp; exceptions</div>
+        <div class="detail-card-body">${task.conditional}</div>
+      </div>` : '';
+
+    return `
+      <div class="compare-col">
+        <div class="compare-col-header">
+          <button class="compare-remove-btn" onclick="removeCompareTask('${task.id}')">×</button>
+          <div class="compare-col-num">Task ${i + 1} of ${compareTasks.length}</div>
+          <div class="compare-col-title">${task.task}</div>
+          <div class="compare-col-scope">${scopeHTML}</div>
+          <div class="compare-col-pills">${teamPill}${nonOpsPill}${deadlinePill}${autoPill}</div>
+        </div>
+        <div class="detail-card card-action">
+          <div class="detail-card-header"><span class="card-icon">▶</span>Action required</div>
+          <div class="detail-card-body">${task.action}</div>
+        </div>
+        <div class="detail-card card-data">
+          <div class="detail-card-header"><span class="card-icon">✓</span>Data to check</div>
+          <div class="detail-card-body"><ul>${checksHTML}</ul></div>
+        </div>
+        ${conditionalCard}
+      </div>`;
+  }).join('');
+}
+
+function removeCompareTask(id) {
+  const idx = compareTasks.findIndex(t => t.id === id);
+  if (idx > -1) compareTasks.splice(idx, 1);
+  renderCompareList();
+  renderCompareGrid();
 }
 
 /* ── Print ─────────────────────────────────────────────────── */
