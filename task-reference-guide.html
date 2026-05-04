@@ -29,13 +29,14 @@
 
   <!-- ── Page Header ────────────────────────────────────── -->
   <div class="page-header">
-    <div class="page-header-eyebrow">Freight Forwarding · Ocean Import</div>
+    <div class="page-header-eyebrow" id="page-eyebrow">Freight Forwarding · Ocean Import</div>
     <div class="page-header-title">MyFreight Task Reference</div>
     <div class="page-header-subtitle">Select a task to view the required action, data checklist, and conditions. Use the filters to narrow by country or team.</div>
   </div>
 
   <!-- ── Filters ────────────────────────────────────────── -->
   <div class="filters-wrap">
+    <div class="filter-row" id="variant-filters"></div>
     <div class="filter-row">
       <span class="filter-label">Country</span>
       <button class="filter-btn country active" data-country-filter="all"  onclick="setCountryFilter('all')">All</button>
