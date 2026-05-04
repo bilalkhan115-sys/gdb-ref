@@ -273,7 +273,7 @@ let activeTeam     = 'all';
 let selectedTask   = null;
 let compareMode    = false;
 const compareTasks = [];
-const COMPARE_MAX  = 3;
+const COMPARE_MAX  = 5;
 
 /* ── Constants ─────────────────────────────────────────────── */
 const AUTO_ICONS = {
