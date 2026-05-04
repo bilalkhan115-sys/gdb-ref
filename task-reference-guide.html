@@ -68,7 +68,10 @@
   <!-- ── Split Layout ───────────────────────────────────── -->
   <div class="split-wrap">
     <div class="left-panel">
-      <div class="task-count" id="task-count">24 tasks</div>
+      <div class="task-count-bar">
+        <span class="task-count" id="task-count">24 tasks</span>
+        <button class="expand-mode-btn" id="expandModeBtn" onclick="toggleExpandMode()">+ Expand mode</button>
+      </div>
       <div id="task-list"></div>
     </div>
     <div class="right-panel">

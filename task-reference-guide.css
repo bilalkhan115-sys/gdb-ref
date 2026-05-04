@@ -666,3 +666,221 @@ body {
     margin-top: 1pt;
   }
 }
+
+/* ── Expand mode ───────────────────────────────────────────── */
+.task-count-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--panel-bg);
+  z-index: 1;
+}
+
+.task-count {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0;
+  border-bottom: none;
+  position: static;
+  background: none;
+}
+
+.expand-mode-btn {
+  padding: 3px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.expand-mode-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.expand-mode-btn.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
+.task-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.task-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all var(--transition);
+  width: 100%;
+}
+
+.task-row:hover { background: var(--item-hover); }
+
+.task-row.active {
+  background: var(--item-active-bg);
+  border-left-color: var(--item-active-border);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.task-row .task-item-name {
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.task-row.active .task-item-name { font-weight: 700; }
+
+.expand-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition);
+  font-family: inherit;
+  padding: 0;
+}
+
+.expand-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.expand-btn.open {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  transform: rotate(45deg);
+}
+
+.accordion-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.22s ease;
+  background: var(--surface2);
+  border-top: none;
+}
+
+.accordion-body.open {
+  max-height: 500px;
+  border-top: 1px solid var(--border);
+}
+
+.acc-inner {
+  padding: 10px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.acc-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.acc-action-text {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.acc-checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.acc-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.acc-checklist li::before {
+  content: '✓';
+  color: var(--green);
+  font-weight: 800;
+  font-size: 9.5px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.acc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+.acc-deadline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(0,32,97,0.08);
+  color: var(--navy);
+  font-size: 9.5px;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .acc-deadline-pill {
+  background: rgba(0,115,255,0.15);
+  color: #60a5fa;
+}
+
+.acc-full-btn {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: opacity var(--transition);
+}
+
+.acc-full-btn:hover { opacity: 0.7; }

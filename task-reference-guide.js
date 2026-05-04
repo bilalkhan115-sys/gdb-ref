@@ -271,6 +271,8 @@ const TASKS = [
 let activeCountry = 'all';
 let activeTeam    = 'all';
 let selectedTask  = null;
+let expandMode    = false;
+const expandedIds = new Set();
 
 /* ── Constants ─────────────────────────────────────────────── */
 const AUTO_ICONS = {
@@ -336,22 +338,70 @@ function renderTaskList() {
   buildPrintLabel();
 
   tasks.forEach(task => {
+    const isActive   = selectedTask && selectedTask.id === task.id;
+    const isExpanded = expandMode && expandedIds.has(task.id);
+
+    const expandBtnHTML = expandMode
+      ? `<button class="expand-btn${isExpanded ? ' open' : ''}" data-id="${task.id}" title="Preview inline">+</button>`
+      : '';
+
+    const deadlinePill = task.deadline
+      ? `<span class="acc-deadline-pill">⏱ ${task.deadline.label}</span>`
+      : '<span></span>';
+
+    const checksHTML = task.dataToCheck
+      .map(c => `<li>${c}</li>`)
+      .join('');
+
+    const accHTML = `
+      <div class="accordion-body${isExpanded ? ' open' : ''}" id="acc-${task.id}">
+        <div class="acc-inner">
+          <div>
+            <div class="acc-section-label">Action</div>
+            <div class="acc-action-text">${task.action}</div>
+          </div>
+          <div>
+            <div class="acc-section-label">Data to check</div>
+            <ul class="acc-checklist">${checksHTML}</ul>
+          </div>
+          <div class="acc-footer">
+            ${deadlinePill}
+            <button class="acc-full-btn" data-id="${task.id}">Full detail →</button>
+          </div>
+        </div>
+      </div>`;
+
     const item = document.createElement('div');
-    item.className = 'task-item' + (selectedTask && selectedTask.id === task.id ? ' active' : '');
-    item.dataset.taskId = task.id;
+    item.className = 'task-item';
     item.innerHTML = `
-      <div class="task-item-name">${task.task}</div>
-      <span class="pill pill-${task.team}" style="font-size:9.5px;padding:2px 7px;">${task.teamLabel.replace('Import ', '')}</span>
-    `;
-    item.addEventListener('click', () => selectTask(task));
+      <div class="task-row${isActive ? ' active' : ''}" data-id="${task.id}">
+        <div class="task-item-name">${task.task}</div>
+        <span class="pill pill-${task.team}" style="font-size:9.5px;padding:2px 7px;">${task.teamLabel.replace('Import ', '')}</span>
+        ${expandBtnHTML}
+      </div>
+      ${accHTML}`;
+
+    item.querySelector('.task-row').addEventListener('click', () => selectTask(task));
+
+    if (expandMode) {
+      item.querySelector('.expand-btn').addEventListener('click', e => {
+        e.stopPropagation();
+        toggleExpand(task.id);
+      });
+      item.querySelector('.acc-full-btn').addEventListener('click', e => {
+        e.stopPropagation();
+        selectTask(task);
+      });
+    }
+
     list.appendChild(item);
   });
 }
 
 function selectTask(task) {
   selectedTask = task;
-  document.querySelectorAll('.task-item').forEach(el => {
-    el.classList.toggle('active', el.dataset.taskId === task.id);
+  document.querySelectorAll('.task-row').forEach(el => {
+    el.classList.toggle('active', el.dataset.id === task.id);
   });
   renderDetail(task);
 }
@@ -405,6 +455,31 @@ function renderDetail(task) {
     </div>`;
 
   panel.classList.add('visible');
+}
+
+/* ── Expand mode ───────────────────────────────────────────── */
+function toggleExpandMode() {
+  expandMode = !expandMode;
+  if (!expandMode) expandedIds.clear();
+  const btn = document.getElementById('expandModeBtn');
+  if (btn) {
+    btn.textContent = expandMode ? '× Expand mode' : '+ Expand mode';
+    btn.classList.toggle('active', expandMode);
+  }
+  renderTaskList();
+}
+
+function toggleExpand(id) {
+  if (expandedIds.has(id)) {
+    expandedIds.delete(id);
+  } else {
+    if (expandedIds.size >= 4) {
+      const first = expandedIds.values().next().value;
+      expandedIds.delete(first);
+    }
+    expandedIds.add(id);
+  }
+  renderTaskList();
 }
 
 /* ── Print ─────────────────────────────────────────────────── */
