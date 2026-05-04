@@ -333,6 +333,7 @@ function renderTaskList() {
   }
 
   count.textContent = `${tasks.length} task${tasks.length !== 1 ? 's' : ''}`;
+  buildPrintLabel();
 
   tasks.forEach(task => {
     const item = document.createElement('div');
@@ -404,6 +405,102 @@ function renderDetail(task) {
     </div>`;
 
   panel.classList.add('visible');
+}
+
+/* ── Print ─────────────────────────────────────────────────── */
+function buildPrintLabel() {
+  const tasks = getFilteredTasks();
+  const countryLabel = activeCountry === 'all' ? 'All countries' : activeCountry;
+  const teamMap = {
+    all: 'All teams', booking: 'Import Booking', documentation: 'Import Documentation',
+    operations: 'Import Operations', financial: 'Financial Handling', error: 'Error Handling'
+  };
+  const teamLabel = teamMap[activeTeam] || activeTeam;
+  const el = document.getElementById('print-bar-label');
+  if (el) el.textContent = `${tasks.length} task${tasks.length !== 1 ? 's' : ''} · ${countryLabel} · ${teamLabel}`;
+}
+
+function printTasks() {
+  const tasks = getFilteredTasks();
+  const countryLabel = activeCountry === 'all' ? 'All countries' : activeCountry;
+  const teamMap = {
+    all: 'All teams', booking: 'Import Booking', documentation: 'Import Documentation',
+    operations: 'Import Operations', financial: 'Financial Handling', error: 'Error Handling'
+  };
+  const teamLabel = teamMap[activeTeam] || activeTeam;
+  const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  const AUTO_LABELS = {
+    'full': 'Auto-complete', 'api-automated': 'API-automated',
+    'recurring': 'Recurring', 'manual': 'Manual', 'exception': 'Exception'
+  };
+
+  const tasksHTML = tasks.map(task => {
+    const scopeBadges = ['FR','DE','NL','IT','PL'].map(c =>
+      `<span class="pr-scope ${task.scope[c] ? 'pr-scope-on' : 'pr-scope-off'}">${c}</span>`
+    ).join('');
+
+    const deadlinePill = task.deadline
+      ? `<span class="pr-pill pr-pill-deadline">⏱ ${task.deadline.label}</span>` : '';
+
+    const autoPill = `<span class="pr-pill pr-pill-auto pr-auto-${task.auto}">${AUTO_LABELS[task.auto]}</span>`;
+
+    const teamPill = `<span class="pr-pill pr-pill-team pr-team-${task.team}">${task.teamLabel}</span>`;
+
+    const nonOpsPill = task.nonOps
+      ? `<span class="pr-pill pr-pill-nonops">Non-ops</span>` : '';
+
+    const checklistHTML = task.dataToCheck.map(item =>
+      `<li>${item}</li>`
+    ).join('');
+
+    const conditionalBlock = task.conditional ? `
+      <div class="pr-card pr-card-cond">
+        <div class="pr-card-head">Conditions &amp; exceptions</div>
+        <div class="pr-card-body">${task.conditional}</div>
+      </div>` : '';
+
+    return `
+      <div class="pr-task">
+        <div class="pr-task-header">
+          <div class="pr-task-title">${task.task}</div>
+          <div class="pr-task-meta">
+            <div class="pr-scope-row">${scopeBadges}</div>
+            <div class="pr-pills">${teamPill}${nonOpsPill}${deadlinePill}${autoPill}</div>
+          </div>
+        </div>
+        <div class="pr-cards">
+          <div class="pr-card pr-card-action">
+            <div class="pr-card-head">Action required</div>
+            <div class="pr-card-body">${task.action}</div>
+          </div>
+          <div class="pr-card pr-card-data">
+            <div class="pr-card-head">Data to check</div>
+            <div class="pr-card-body"><ul>${checklistHTML}</ul></div>
+          </div>
+          ${conditionalBlock}
+        </div>
+      </div>`;
+  }).join('');
+
+  const printView = document.getElementById('print-view');
+  printView.innerHTML = `
+    <div class="pr-cover">
+      <div class="pr-cover-brand">GDB Logistics · MyFreight</div>
+      <div class="pr-cover-title">Task Reference Guide</div>
+      <div class="pr-cover-meta">
+        <span>${tasks.length} task${tasks.length !== 1 ? 's' : ''}</span>
+        <span class="pr-cover-dot">·</span>
+        <span>${countryLabel}</span>
+        <span class="pr-cover-dot">·</span>
+        <span>${teamLabel}</span>
+        <span class="pr-cover-dot">·</span>
+        <span>Generated ${dateStr}</span>
+      </div>
+    </div>
+    ${tasksHTML}`;
+
+  window.print();
 }
 
 /* ── Init ──────────────────────────────────────────────────── */

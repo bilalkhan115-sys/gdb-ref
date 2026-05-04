@@ -7,6 +7,8 @@
 body {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* ── Page Header ───────────────────────────────────────────── */
@@ -99,7 +101,7 @@ body {
   padding: 14px 20px 20px;
   flex: 1;
   min-height: 0;
-  height: calc(100vh - var(--topbar-height) - 234px);
+  overflow: hidden;
 }
 
 .left-panel {
@@ -410,6 +412,52 @@ body {
   margin-top: 2px;
 }
 
+/* ── Print bar ─────────────────────────────────────────────── */
+.print-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  margin: 10px 20px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  gap: 12px;
+}
+
+.print-bar-label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.print-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.print-btn:hover {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+/* ── Print view (screen: hidden) ───────────────────────────── */
+.print-view { display: none; }
+
 /* ── No results ────────────────────────────────────────────── */
 .no-results {
   padding: 24px 14px;
@@ -448,4 +496,173 @@ body {
   color: rgba(255,255,255,0.35);
   border: 1px solid rgba(255,255,255,0.12);
   text-decoration: line-through;
+}
+
+/* ── Print stylesheet ──────────────────────────────────────── */
+@media print {
+  /* Hide all screen UI */
+  .topbar, .banner, .page-header, .filters-wrap,
+  .print-bar, .split-wrap, .print-fab { display: none !important; }
+
+  /* Show print view */
+  .print-view { display: block !important; }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Cover block */
+  .pr-cover {
+    padding: 20pt 0 16pt;
+    border-bottom: 2pt solid #002061;
+    margin-bottom: 20pt;
+  }
+
+  .pr-cover-brand {
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #0073FF;
+    margin-bottom: 4pt;
+  }
+
+  .pr-cover-title {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #002061;
+    margin-bottom: 6pt;
+  }
+
+  .pr-cover-meta {
+    font-size: 8.5pt;
+    color: #6070a0;
+    display: flex;
+    gap: 6pt;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .pr-cover-dot { color: #c0c8d8; }
+
+  /* Each task block */
+  .pr-task {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 18pt;
+    border: 1pt solid #d4daea;
+    border-radius: 6pt;
+    overflow: hidden;
+  }
+
+  .pr-task-header {
+    background: #002061;
+    padding: 10pt 14pt 8pt;
+  }
+
+  .pr-task-title {
+    font-size: 13pt;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 6pt;
+  }
+
+  .pr-task-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5pt;
+  }
+
+  .pr-scope-row { display: flex; gap: 4pt; flex-wrap: wrap; }
+
+  .pr-scope {
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 1pt 5pt;
+    border-radius: 2pt;
+    letter-spacing: 0.05em;
+  }
+
+  .pr-scope-on  { background: rgba(78,240,244,0.25); color: #4EF0F4; border: 0.5pt solid rgba(78,240,244,0.5); }
+  .pr-scope-off { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.3); border: 0.5pt solid rgba(255,255,255,0.12); text-decoration: line-through; }
+
+  .pr-pills { display: flex; gap: 4pt; flex-wrap: wrap; }
+
+  .pr-pill {
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 1.5pt 6pt;
+    border-radius: 10pt;
+    letter-spacing: 0.02em;
+  }
+
+  .pr-pill-deadline { background: rgba(78,240,244,0.2); color: #4EF0F4; border: 0.5pt solid rgba(78,240,244,0.4); }
+  .pr-pill-nonops   { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.75); border: 0.5pt solid rgba(255,255,255,0.2); }
+
+  .pr-pill-team.pr-team-booking       { background: #dbeafe; color: #1e40af; }
+  .pr-pill-team.pr-team-operations    { background: #d1fae5; color: #065f46; }
+  .pr-pill-team.pr-team-documentation { background: #fef9c3; color: #854d0e; }
+  .pr-pill-team.pr-team-financial     { background: #fce7f3; color: #9d174d; }
+  .pr-pill-team.pr-team-error         { background: #fee2e2; color: #991b1b; }
+
+  .pr-pill-auto.pr-auto-full      { background: #d1fae5; color: #065f46; }
+  .pr-pill-auto.pr-auto-api       { background: #dbeafe; color: #1e40af; }
+  .pr-pill-auto.pr-auto-recurring { background: #fef9c3; color: #854d0e; }
+  .pr-pill-auto.pr-auto-manual    { background: #f1f5f9; color: #475569; }
+  .pr-pill-auto.pr-auto-exception { background: #fce7f3; color: #9d174d; }
+
+  /* Content cards */
+  .pr-cards {
+    padding: 10pt 14pt;
+    display: flex;
+    flex-direction: column;
+    gap: 8pt;
+    background: #fff;
+  }
+
+  .pr-card {
+    border: 1pt solid #d4daea;
+    border-radius: 4pt;
+    overflow: hidden;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .pr-card-head {
+    font-size: 7.5pt;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5pt 10pt;
+    border-bottom: 1.5pt solid;
+  }
+
+  .pr-card-action .pr-card-head { background: rgba(0,115,255,0.07);  color: #0073FF; border-color: #0073FF; }
+  .pr-card-data   .pr-card-head { background: rgba(0,181,123,0.07);  color: #00875a; border-color: #00B57B; }
+  .pr-card-cond   .pr-card-head { background: rgba(134,194,0,0.07);  color: #4a7a00; border-color: #86C200; }
+
+  .pr-card-body {
+    padding: 7pt 10pt;
+    font-size: 9pt;
+    color: #3a4e7a;
+    line-height: 1.55;
+  }
+
+  .pr-card-body ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3pt; }
+
+  .pr-card-body ul li { display: flex; align-items: flex-start; gap: 5pt; }
+
+  .pr-card-body ul li::before {
+    content: '✓';
+    color: #00B57B;
+    font-weight: 800;
+    font-size: 8pt;
+    flex-shrink: 0;
+    margin-top: 1pt;
+  }
 }
