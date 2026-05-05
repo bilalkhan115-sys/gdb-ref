@@ -41,18 +41,25 @@ function renderVariantSelector() {
   if (!wrap || !CONFIG) return;
 
   const currentModality = CONFIG.modalities.find(m => m.id === activeModality);
+  const multiModality  = CONFIG.modalities.length > 1;
+  const multiDirection = currentModality && currentModality.directions.length > 1;
 
-  const modalityBtns = CONFIG.modalities.map(m =>
+  if (!multiModality && !multiDirection) {
+    wrap.innerHTML = '';
+    return;
+  }
+
+  const modalityBtns = multiModality ? CONFIG.modalities.map(m =>
     `<button class="filter-btn${m.id === activeModality ? ' active' : ''}" onclick="setModality('${m.id}')">${m.label}</button>`
-  ).join('');
+  ).join('') : '';
 
-  const directionBtns = currentModality ? currentModality.directions.map(d =>
+  const directionBtns = multiDirection ? currentModality.directions.map(d =>
     `<button class="filter-btn${d.id === activeDirection ? ' active' : ''}" onclick="setDirection('${d.id}')">${d.label}</button>`
   ).join('') : '';
 
   wrap.innerHTML =
-    `<span class="filter-label">Modality</span>${modalityBtns}` +
-    `<span class="filter-label" style="margin-left:16px;">Direction</span>${directionBtns}`;
+    (multiModality  ? `<span class="filter-label">Modality</span>${modalityBtns}` : '') +
+    (multiDirection ? `<span class="filter-label" style="margin-left:16px;">Direction</span>${directionBtns}` : '');
 }
 
 async function setModality(modality) {
@@ -77,7 +84,10 @@ async function switchVariant() {
   const m = CONFIG.modalities.find(m => m.id === activeModality);
   const d = m?.directions.find(d => d.id === activeDirection);
   const eyebrow = document.getElementById('page-eyebrow');
-  if (eyebrow && m && d) eyebrow.textContent = `Freight Forwarding · ${m.label} ${d.label}`;
+  if (eyebrow && m && d) {
+    const multiVariant = CONFIG.modalities.length > 1 || m.directions.length > 1;
+    eyebrow.textContent = multiVariant ? `Freight Forwarding · ${m.label} ${d.label}` : 'Freight Forwarding';
+  }
 
   document.querySelectorAll('[data-country-filter]').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.countryFilter === 'all')
@@ -451,7 +461,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const m = CONFIG.modalities.find(m => m.id === activeModality);
   const d = m?.directions.find(d => d.id === activeDirection);
   const eyebrow = document.getElementById('page-eyebrow');
-  if (eyebrow && m && d) eyebrow.textContent = `Freight Forwarding · ${m.label} ${d.label}`;
+  if (eyebrow && m && d) {
+    const multiVariant = CONFIG.modalities.length > 1 || m.directions.length > 1;
+    eyebrow.textContent = multiVariant ? `Freight Forwarding · ${m.label} ${d.label}` : 'Freight Forwarding';
+  }
 
   renderVariantSelector();
   renderTaskList();
