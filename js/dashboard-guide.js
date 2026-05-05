@@ -106,7 +106,7 @@ const STEPS = [
   }
 ];
 
-const SCREENSHOTS = ['1st.png', '2nd.png', '3rd.png', '4th.png', '5th.png', '6th.png'];
+const SCREENSHOTS = ['assets/1st.png', 'assets/2nd.png', 'assets/3rd.png', 'assets/4th.png', 'assets/5th.png', 'assets/6th.png'];
 
 let current = 0;
 

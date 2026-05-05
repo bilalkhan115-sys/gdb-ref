@@ -1,0 +1,11 @@
+{
+  "modalities": [
+    {
+      "id": "ocean",
+      "label": "Ocean",
+      "directions": [
+        { "id": "import", "label": "Import" }
+      ]
+    }
+  ]
+}

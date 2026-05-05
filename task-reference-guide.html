@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MyFreight Task Reference · GDB Logistics</title>
-  <link rel="stylesheet" href="shared.css" />
-  <link rel="stylesheet" href="task-reference-guide.css" />
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/task-reference-guide.css" />
 </head>
 <body>
 
   <!-- ── Topbar ─────────────────────────────────────────── -->
   <header class="topbar">
     <div class="topbar-brand">
-      <img src="Logo-GDB-landscape.svg" alt="GDB Logistics" class="brand-logo" />
+      <img src="assets/Logo-GDB-landscape.svg" alt="GDB Logistics" class="brand-logo" />
     </div>
     <div class="topbar-divider"></div>
     <nav class="topbar-nav">
@@ -29,13 +29,14 @@
 
   <!-- ── Page Header ────────────────────────────────────── -->
   <div class="page-header">
-    <div class="page-header-eyebrow">Freight Forwarding · Ocean Import</div>
+    <div class="page-header-eyebrow" id="page-eyebrow">Freight Forwarding · Ocean Import</div>
     <div class="page-header-title">MyFreight Task Reference</div>
     <div class="page-header-subtitle">Select a task to view the required action, data checklist, and conditions. Use the filters to narrow by country or team.</div>
   </div>
 
   <!-- ── Filters ────────────────────────────────────────── -->
   <div class="filters-wrap">
+    <div class="filter-row" id="variant-filters"></div>
     <div class="filter-row">
       <span class="filter-label">Country</span>
       <button class="filter-btn country active" data-country-filter="all"  onclick="setCountryFilter('all')">All</button>
@@ -56,23 +57,57 @@
     </div>
   </div>
 
-  <!-- ── Split Layout ───────────────────────────────────── -->
-  <div class="split-wrap">
-    <div class="left-panel">
-      <div class="task-count" id="task-count">24 tasks</div>
-      <div id="task-list"></div>
-    </div>
-    <div class="right-panel">
-      <div id="detail-placeholder" class="placeholder">
-        <div class="placeholder-icon">🗂</div>
-        <div class="placeholder-text">Select a task</div>
-        <div class="placeholder-sub">Choose a task from the list to view the action guide, data checklist, and conditions.</div>
-      </div>
-      <div id="detail-panel" class="detail-panel"></div>
+  <!-- ── Print bar ──────────────────────────────────────────── -->
+  <div class="print-bar">
+    <span class="print-bar-label" id="print-bar-label">24 tasks · All countries · All teams</span>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="print-btn compare-mode-btn" id="compareModeBtn" onclick="toggleCompareMode()">⇄ Compare mode</button>
+      <button class="print-btn" onclick="printTasks()">⎙ Print task list</button>
     </div>
   </div>
 
-  <script src="shared.js"></script>
-  <script src="task-reference-guide.js"></script>
+  <!-- ── Print view (hidden on screen) ─────────────────── -->
+  <div id="print-view" class="print-view"></div>
+
+  <!-- ── View container (split and compare share this flex slot) ── -->
+  <div class="view-container">
+
+    <!-- ── Compare view (hidden until compare mode on) ────── -->
+    <div id="compare-view" class="compare-view hidden">
+      <div class="compare-left-panel">
+        <div class="task-count-bar">
+          <span class="task-count" id="compare-task-count">24 tasks</span>
+          <span class="compare-hint" id="compare-hint">Select up to 3 tasks</span>
+        </div>
+        <div id="compare-task-list"></div>
+      </div>
+      <div class="compare-right-panel" id="compare-right-panel">
+        <div class="compare-placeholder" id="compare-placeholder">
+          <div class="placeholder-icon">⇄</div>
+          <div class="placeholder-text">No tasks selected</div>
+          <div class="placeholder-sub">Select up to 3 tasks from the list to compare them side by side.</div>
+        </div>
+        <div class="compare-grid" id="compare-grid"></div>
+      </div>
+    </div>
+
+    <!-- ── Split Layout ───────────────────────────────────── -->
+    <div class="split-wrap">
+      <div class="left-panel">
+        <div class="task-count" id="task-count">24 tasks</div>
+        <div id="task-list"></div>
+      </div>
+      <div class="right-panel">
+        <div id="detail-placeholder" class="placeholder">
+          <div class="placeholder-icon">🗂</div>
+          <div class="placeholder-text">Select a task</div>
+          <div class="placeholder-sub">Choose a task from the list to view the action guide, data checklist, and conditions.</div>
+        </div>
+        <div id="detail-panel" class="detail-panel"></div>
+      </div>
+    </div>
+
+  <script src="js/shared.js"></script>
+  <script src="js/task-reference-guide.js"></script>
 </body>
 </html>
