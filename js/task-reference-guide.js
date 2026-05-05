@@ -12,6 +12,7 @@ let activeCountry   = 'all';
 let activeTeam      = 'all';
 let selectedTask    = null;
 let compareMode     = false;
+let fullOverviewMode = false;
 const compareTasks  = [];
 const COMPARE_MAX   = 5;
 
@@ -133,6 +134,18 @@ function setCountryFilter(country) {
   });
   renderTaskList();
   if (compareMode) renderCompareList();
+  if (fullOverviewMode) renderFullOverviewTable();
+  // Ensure button states are correct
+  const compareBtn = document.getElementById('compareModeBtn');
+  if (compareBtn) {
+    if (compareMode) compareBtn.classList.add('active');
+    else compareBtn.classList.remove('active');
+  }
+  const fullBtn = document.getElementById('fullOverviewBtn');
+  if (fullBtn) {
+    if (fullOverviewMode) fullBtn.classList.add('active');
+    else fullBtn.classList.remove('active');
+  }
 }
 
 function setTeamFilter(team) {
@@ -148,6 +161,18 @@ function setTeamFilter(team) {
   });
   renderTaskList();
   if (compareMode) renderCompareList();
+  if (fullOverviewMode) renderFullOverviewTable();
+  // Ensure button states are correct
+  const compareBtn = document.getElementById('compareModeBtn');
+  if (compareBtn) {
+    if (compareMode) compareBtn.classList.add('active');
+    else compareBtn.classList.remove('active');
+  }
+  const fullBtn = document.getElementById('fullOverviewBtn');
+  if (fullBtn) {
+    if (fullOverviewMode) fullBtn.classList.add('active');
+    else fullBtn.classList.remove('active');
+  }
 }
 
 /* ── Render task list ──────────────────────────────────────── */
@@ -243,20 +268,50 @@ function renderDetail(task) {
 /* ── Compare mode ─────────────────────────────────────────── */
 function toggleCompareMode() {
   compareMode = !compareMode;
+  fullOverviewMode = false; // Deactivate full overview when switching to compare
   const btn = document.getElementById('compareModeBtn');
   if (btn) btn.classList.toggle('active', compareMode);
+  const fullBtn = document.getElementById('fullOverviewBtn');
+  if (fullBtn) fullBtn.classList.remove('active');
 
   const splitWrap   = document.querySelector('.split-wrap');
   const compareView = document.getElementById('compare-view');
+  const fullView    = document.getElementById('full-overview-view');
 
   if (compareMode) {
     splitWrap.classList.add('hidden');
     compareView.classList.remove('hidden');
+    fullView.classList.add('hidden');
     renderCompareList();
     renderCompareGrid();
   } else {
     splitWrap.classList.remove('hidden');
     compareView.classList.add('hidden');
+    fullView.classList.add('hidden');
+  }
+}
+
+function toggleFullOverview() {
+  fullOverviewMode = !fullOverviewMode;
+  compareMode = false; // Deactivate compare when switching to full overview
+  const btn = document.getElementById('fullOverviewBtn');
+  if (btn) btn.classList.toggle('active', fullOverviewMode);
+  const compareBtn = document.getElementById('compareModeBtn');
+  if (compareBtn) compareBtn.classList.remove('active');
+
+  const splitWrap   = document.querySelector('.split-wrap');
+  const compareView = document.getElementById('compare-view');
+  const fullView    = document.getElementById('full-overview-view');
+
+  if (fullOverviewMode) {
+    splitWrap.classList.add('hidden');
+    compareView.classList.add('hidden');
+    fullView.classList.remove('hidden');
+    renderFullOverviewTable();
+  } else {
+    splitWrap.classList.remove('hidden');
+    compareView.classList.add('hidden');
+    fullView.classList.add('hidden');
   }
 }
 
@@ -369,6 +424,54 @@ function removeCompareTask(id) {
   if (idx > -1) compareTasks.splice(idx, 1);
   renderCompareList();
   renderCompareGrid();
+}
+
+/* ── Full Overview Table ───────────────────────────────────── */
+function renderFullOverviewTable() {
+  const view = document.getElementById('full-overview-view');
+  const tasks = getFilteredTasks();
+
+  const tableHTML = `
+    <table class="full-overview-table">
+      <thead>
+        <tr>
+          <th>Task Name</th>
+          <th>Deadline</th>
+          <th>Automation Status</th>
+          <th>Required Action</th>
+          <th>Data to Check</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${tasks.map(task => {
+          const deadline = task.deadline ? task.deadline.label : 'N/A';
+          const autoStatus = `${AUTO_ICONS[task.auto] || ''} ${task.auto}`;
+          const action = task.action;
+          const dataToCheck = task.dataToCheck.join(', ');
+          const teamPill = `<span class="pill pill-${task.team}">${TEAM_ICONS[task.team] || ''} ${task.teamLabel}</span>`;
+          return `
+            <tr>
+              <td>
+                <div class="full-overview-task-name">
+                  <span class="full-overview-task-title">${task.task}</span>
+                  ${teamPill}
+                </div>
+              </td>
+              <td>${deadline}</td>
+              <td>${autoStatus}</td>
+              <td>${action}</td>
+              <td>${dataToCheck}</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+
+  view.innerHTML = tableHTML;
+  // Ensure button is active
+  const fullBtn = document.getElementById('fullOverviewBtn');
+  if (fullBtn) fullBtn.classList.add('active');
 }
 
 /* ── Print ─────────────────────────────────────────────────── */

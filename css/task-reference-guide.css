@@ -460,6 +460,12 @@ body {
   color: #fff;
 }
 
+.print-btn.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
 /* ── Print view (screen: hidden) ───────────────────────────── */
 .print-view { display: none; }
 
@@ -698,6 +704,58 @@ body {
 }
 
 .compare-view.hidden { display: none; }
+
+.full-overview-view {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.full-overview-view.hidden { display: none; }
+
+.full-overview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.full-overview-table th,
+.full-overview-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.full-overview-table th {
+  background: var(--panel-bg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.full-overview-table td {
+  color: var(--text-secondary);
+}
+
+.full-overview-task-name {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.full-overview-task-name .pill {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.full-overview-table tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .full-overview-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
 
 .split-wrap.hidden { display: none; }
 

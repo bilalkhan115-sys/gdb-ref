@@ -62,6 +62,7 @@
     <span class="print-bar-label" id="print-bar-label">24 tasks · All countries · All teams</span>
     <div style="display:flex;gap:8px;align-items:center;">
       <button class="print-btn compare-mode-btn" id="compareModeBtn" onclick="toggleCompareMode()">⇄ Compare mode</button>
+      <button class="print-btn" id="fullOverviewBtn" onclick="toggleFullOverview()">Full Overview</button>
       <button class="print-btn" onclick="printTasks()">⎙ Print task list</button>
     </div>
   </div>
@@ -89,6 +90,10 @@
         </div>
         <div class="compare-grid" id="compare-grid"></div>
       </div>
+    </div>
+
+    <!-- ── Full Overview view (hidden until full overview mode on) ────── -->
+    <div id="full-overview-view" class="full-overview-view hidden">
     </div>
 
     <!-- ── Split Layout ───────────────────────────────────── -->
