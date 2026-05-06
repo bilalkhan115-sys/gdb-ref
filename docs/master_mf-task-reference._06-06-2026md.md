@@ -108,7 +108,7 @@ Each task entry contains all fields needed for both operational use and system c
 ---
 
 ### t27 — Consol booking confirmation
-**Stage:** STG-1 · **Team:** Import Booking · **Automation:** manual · **Deadline:** 5 days before ETD
+**Stage:** STG-1 · **Team:** Import Booking · **Automation:** manual · **Deadline:** 5 days before ETD · **Status:** draft
 **Scope:** FR ✓ · DE ✓ · NL ✓ · IT ✓ · PL ✓
 
 **Action:** Confirm that a slot has been allocated on the consol shipment by the carrier or consolidator. Complete this task once written confirmation is received.
@@ -479,7 +479,7 @@ Each task entry contains all fields needed for both operational use and system c
 ---
 
 ### t26 — Arrival Notice
-**Stage:** STG-7 · **Team:** Import Operations · **Automation:** manual · **Deadline:** 2 days before ATA
+**Stage:** STG-7 · **Team:** Import Operations · **Automation:** manual · **Deadline:** 2 days before ATA · **Status:** draft
 **Scope:** FR – · DE ✓ · NL – · IT – · PL –
 
 **Action:** Send a manual arrival notice to the customer confirming imminent arrival of the shipment. Complete this task in MF once the notification has been sent.
