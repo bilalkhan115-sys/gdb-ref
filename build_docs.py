@@ -12,7 +12,7 @@ import sys
 import json
 from pathlib import Path
 
-VALID_STATUSES = {'confirmed', 'draft'}
+VALID_STATUSES = {'confirmed', 'draft', 'inactive'}
 
 STAGE_MAP = {
     'STG-1': 'booking',
@@ -100,6 +100,8 @@ def parse_markdown_to_tasks(markdown_path: Path) -> list[dict]:
         deadline_lbl = deadline_match.group(1).strip() if deadline_match else ''
         scope_line   = scope_match.group(1).strip()    if scope_match    else ''
         status_raw   = status_match.group(1).strip()   if status_match   else 'confirmed'
+        if "(inactive" in task_name:
+            status_raw = 'inactive'
         action       = action_match.group(1).strip()   if action_match   else ''
         conditional  = cond_match.group(1).strip()     if cond_match     else None
 
@@ -151,6 +153,7 @@ def parse_markdown_to_tasks(markdown_path: Path) -> list[dict]:
             "deadline":   {"label": deadline_lbl},
             "scope":      scope_countries,
             "status":     status,
+            "inactive":   status in ('draft', 'inactive'),
             "nonOps":     False,
             "action":     action,
             "dataToCheck": data_to_check,

@@ -18,6 +18,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Confirm that all required booking fields are present and correct. For API bookings where all fields are populated, this task completes automatically. For manual or exception bookings, review the record and complete the task once validated.",
     "dataToCheck": [
@@ -49,6 +50,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Contact the carrier or agent to request formal confirmation that space has been allocated for this shipment.",
     "dataToCheck": [
@@ -78,6 +80,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Record and confirm that space has been formally released by the carrier. Complete this task once written confirmation is received.",
     "dataToCheck": [
@@ -106,6 +109,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Review the latest data pushed by the agent via the SnapLogic API and confirm it is correct. This task resets to Pending each time a new agent update is received — it does not need to be actioned if no update has come in.",
     "dataToCheck": [
@@ -136,6 +140,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Manually enter or verify all departure shipment data fields in MF. Complete the task once all required fields are populated and confirmed.",
     "dataToCheck": [
@@ -168,6 +173,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "No action required. This task completes automatically when the agent pre-alert is received with all required data. If the task remains Pending after the expected pre-alert date, follow up with the agent.",
     "dataToCheck": [
@@ -197,6 +203,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Retrieve the commercial invoice and packing list from the shipment documents and cross-check against MF shipment data. Complete the task once all fields are verified and consistent.",
     "dataToCheck": [
@@ -228,6 +235,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Verify the seaway bill against the MF shipment record. For API shipments, this task may auto-complete when the document is received from the agent. For manual shipments, review the document and complete manually once verified.",
     "dataToCheck": [
@@ -259,6 +267,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "No action required. This task completes automatically when the HBL or TLX release is provided by the agent via API. If the task remains Pending, contact the agent to confirm release status.",
     "dataToCheck": [
@@ -287,6 +296,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Check whether insurance applies to this shipment. If it does, retrieve the insurance certificate and verify it against the cargo details. Complete the task once verified, or mark not applicable if insurance is not required.",
     "dataToCheck": [
@@ -317,6 +327,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Carry out a pre-arrival check to confirm that all data required for customs entry is complete and accurate in MF. Complete the task once all fields are confirmed ready. All fields must be resolved by 7 days before ETA to avoid delaying the customs submission.",
     "dataToCheck": [
@@ -349,6 +360,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Execute this task in MF to trigger the webhook that sends the customs package to the Customs system. Do not send documents outside MF — the task execution is the trigger for the automated submission.",
     "dataToCheck": [
@@ -377,6 +389,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "No action required. This task is created and immediately completed automatically when clearance confirmation is received from the Customs API.",
     "dataToCheck": [
@@ -398,7 +411,8 @@
       "label": "No fixed deadline"
     },
     "scope": [],
-    "status": "confirmed",
+    "status": "inactive",
+    "inactive": true,
     "nonOps": false,
     "action": "Review the ETA deviation and assess operational impact. Coordinate with the customer and any delivery partners to adjust planning. Complete the task once the situation has been assessed and the customer informed.",
     "dataToCheck": [
@@ -426,6 +440,7 @@
       "IT"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Check the terminal system for the latest container status and update MF accordingly. Confirm port availability, berthing, and discharge information where available.",
     "dataToCheck": [
@@ -456,6 +471,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Send a release request by email to the carrier. Complete this task in MF once the request has been sent.",
     "dataToCheck": [
@@ -485,6 +501,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Check the port or carrier system to confirm that the container release has been granted. Complete this task in MF once release is confirmed.",
     "dataToCheck": [
@@ -515,6 +532,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Plan and coordinate the delivery ahead of the shipment's arrival. Notify the customer of the imminent arrival and confirm the estimated delivery date and time window. Use the OutSystems bulk tool to push the planned delivery date, time, and locations to MF.",
     "dataToCheck": [
@@ -545,6 +563,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Execute the Transport Delivery Order task in MF. This triggers an API call to push the planned delivery data to Qargo or the assigned trucker. The task turns green on a successful push.",
     "dataToCheck": [
@@ -575,6 +594,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Create and submit a Warehouse Inbound Order to the receiving warehouse. Coordinate with the warehouse to confirm the inbound slot and any handling requirements.",
     "dataToCheck": [
@@ -605,6 +625,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Coordinate the devanning of the LCL container at the CFS or terminal. Confirm that all cargo for this shipment has been identified and separated correctly. Complete the task in MF once devanning is confirmed.",
     "dataToCheck": [
@@ -632,6 +653,7 @@
       "IT"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Submit requests for the TCT (PCR) and ERC (leeg retour) to the relevant port authority or terminal at Le Havre. Complete the task in MF once both requests have been submitted.",
     "dataToCheck": [
@@ -660,6 +682,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Confirm that the empty container has been returned to the carrier depot and update MF accordingly. Complete the task once return is confirmed.",
     "dataToCheck": [
@@ -690,6 +713,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Create the outbound invoice to the customer in the financial system. Ensure all charges are captured correctly before issuing.",
     "dataToCheck": [
@@ -720,6 +744,7 @@
       "PL"
     ],
     "status": "confirmed",
+    "inactive": false,
     "nonOps": false,
     "action": "Monitor the Dev Message Log on every shipment throughout the lifecycle. A Completed status is informational. A Pending status means an integration error or missing data requires your attention — review the log entry and resolve the issue.",
     "dataToCheck": [
@@ -746,6 +771,7 @@
       "DE"
     ],
     "status": "draft",
+    "inactive": true,
     "nonOps": false,
     "action": "Send a manual arrival notice to the customer confirming imminent arrival of the shipment. Complete this task in MF once the notification has been sent.",
     "dataToCheck": [
@@ -776,6 +802,7 @@
       "PL"
     ],
     "status": "draft",
+    "inactive": true,
     "nonOps": false,
     "action": "Confirm that a slot has been allocated on the consol shipment by the carrier or consolidator. Complete this task once written confirmation is received.",
     "dataToCheck": [
