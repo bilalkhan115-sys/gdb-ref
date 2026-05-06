@@ -304,7 +304,7 @@ Each task entry contains all fields needed for both operational use and system c
 ---
 
 ### t14 — ETA Warning _(inactive — not in scope for current phase)_
-**Stage:** STG-5 · **Team:** Import Operations · **Automation:** recurring · **Deadline:** No fixed deadline
+**Stage:** STG-5 · **Team:** Import Operations · **Automation:** recurring · **Deadline:** No fixed deadline · **Status:** inactive
 **Scope:** FR – · DE – · NL – · IT – · PL –
 **DEV NOTE:** Can be handled by native MyFreight ETA change notifications. If the native feature is inadequate, a daily pipeline will be needed to check for significant ETD/ETA deviations and update task status accordingly. Decision pending.
 

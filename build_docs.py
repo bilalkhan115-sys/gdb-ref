@@ -100,8 +100,6 @@ def parse_markdown_to_tasks(markdown_path: Path) -> list[dict]:
         deadline_lbl = deadline_match.group(1).strip() if deadline_match else ''
         scope_line   = scope_match.group(1).strip()    if scope_match    else ''
         status_raw   = status_match.group(1).strip()   if status_match   else 'confirmed'
-        if "(inactive" in task_name:
-            status_raw = 'inactive'
         action       = action_match.group(1).strip()   if action_match   else ''
         conditional  = cond_match.group(1).strip()     if cond_match     else None
 
@@ -187,10 +185,13 @@ def main():
 
     output_path.write_text(json.dumps(tasks, indent=2, ensure_ascii=False), encoding='utf-8')
 
-    confirmed = sum(1 for t in tasks if t['status'] == 'confirmed')
-    draft     = sum(1 for t in tasks if t['status'] == 'draft')
+    by_status = {}
+    for t in tasks:
+        by_status.setdefault(t['status'], 0)
+        by_status[t['status']] += 1
+    status_summary = '  ·  '.join(f"{count} {s}" for s, count in sorted(by_status.items()))
     print(f"Output : {output_path}")
-    print(f"Tasks  : {len(tasks)} total  ({confirmed} confirmed · {draft} draft)")
+    print(f"Tasks  : {len(tasks)} total  ({status_summary})")
 
 
 if __name__ == '__main__':
