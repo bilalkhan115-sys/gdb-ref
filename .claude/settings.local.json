@@ -3,7 +3,8 @@
     "allow": [
       "PowerShell(Head -100)",
       "Bash(git remote *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\bilal.khan\\\\gdb-ref\" -Directory | ForEach-Object { Write-Host \"$\\($_.Name\\) - $\\(Get-ChildItem -Path $_.FullName | Measure-Object | Select-Object -ExpandProperty Count\\) items\" })"
     ]
   }
 }

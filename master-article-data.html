@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyFreight Dashboard Guide · GDB Logistics</title>
+  <title>Master Article Data · GDB Logistics</title>
   <link rel="stylesheet" href="css/shared.css" />
-  <link rel="stylesheet" href="css/dashboard-guide.css" />
+  <link rel="stylesheet" href="css/master-article-data.css" />
 </head>
 <body>
 
@@ -16,42 +16,27 @@
     </div>
     <div class="topbar-divider"></div>
     <nav class="topbar-nav">
-      <a href="dashboard-guide.html" class="topbar-nav-item active">Dashboard Guide</a>
+      <a href="dashboard-guide.html" class="topbar-nav-item">Dashboard Guide</a>
       <a href="task-reference-guide.html" class="topbar-nav-item">Task Reference</a>
-      <a href="master-article-data.html" class="topbar-nav-item">Article Management</a>
+      <a href="master-article-data.html" class="topbar-nav-item active">Article Management</a>
     </nav>
   </header>
 
   <!-- ── Banner ────────────────────────────────────────── -->
   <div class="banner">
-    <span class="banner-icon">📋</span>
-    <span>Start your daily work from the <strong>MyFreight Dashboard</strong> — it shows all shipments with pending tasks for GDB Forwarding.</span>
+    <span class="banner-icon">📦</span>
+    <span>Master Article Data controls how goods are described, classified, and referenced across all MyFreight shipments.</span>
   </div>
 
   <!-- ── Page header ───────────────────────────────────── -->
   <div class="page-header">
     <div class="eyebrow">Freight Forwarding</div>
-    <h1 class="page-title">How to use the MyFreight Dashboard</h1>
-    <p class="page-subtitle">A step-by-step walkthrough of how to find, filter, assign, and action tasks using the MyFreight Dashboard.</p>
+    <h1 class="page-title">Managing Master Article Data</h1>
+    <p class="page-subtitle">A complete guide to creating, editing, and maintaining master article records in MyFreight — from adding a new article to handling common questions.</p>
   </div>
 
-  <!-- ── Progress bar ──────────────────────────────────── -->
-  <div class="progress-wrap">
-    <div class="progress-header">
-      <span class="progress-label">Progress</span>
-      <span class="step-counter" id="stepCounter">Step 1 of 6</span>
-    </div>
-    <div class="progress-dots" id="progressDots"></div>
-  </div>
-
-  <!-- ── Step container ────────────────────────────────── -->
-  <div class="step-container" id="stepContainer"></div>
-
-  <!-- ── Step navigation ───────────────────────────────── -->
-  <div class="nav-row" id="navRow">
-    <button class="nav-btn" id="btnPrev" onclick="goStep(-1)">← Previous</button>
-    <button class="nav-btn primary" id="btnNext" onclick="goStep(1)">Next →</button>
-  </div>
+  <!-- ── FAQ accordion ─────────────────────────────────── -->
+  <div class="faq-container" id="faqContainer"></div>
 
   <!-- ── Lightbox ──────────────────────────────────────── -->
   <div id="lightbox" onclick="closeLightbox(event)">
@@ -64,6 +49,6 @@
   <button class="print-fab" onclick="window.print()" title="Print this page">⎙</button>
 
   <script src="js/shared.js"></script>
-  <script src="js/dashboard-guide.js"></script>
+  <script src="js/master-article-data.js"></script>
 </body>
 </html>
